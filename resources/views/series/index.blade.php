@@ -15,7 +15,9 @@
                 </a>
             
             <span class="d-flex">
-            <a class="update" href="{{route('series.edit', $serie->id)}}">E</a>
+            
+                @auth
+                    <a class="update" href="{{route('series.edit', $serie->id)}}">E</a>
             
             <form class="X" action="{{route('series.destroy', $serie->id)}}" method="post">
                     @csrf
@@ -25,9 +27,12 @@
                     </button>
                 </form>
                 </span>
+                @endauth
             </li>
             @endforeach
     </ul>
     <br>
+    @auth
     <a class="botao" href="{{route('series.create')}}">Adicionar serie</a>
+    @endauth
 </x-layout>

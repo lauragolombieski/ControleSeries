@@ -7,7 +7,7 @@
                <a class="descricao" href="{{ route('episodes.index', $season->id)}}">Temporada {{$season->number}}</a>
             
                 <span class="badge bg-secondary">
-                    {{ $season->episodes->count()}}
+                    {{ $season->watched() }} / {{ $season->episodes->count()}}
                 </span>
             </li>
             @endforeach

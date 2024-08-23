@@ -16,12 +16,12 @@
     }
 
     .escrita {
-        position: relative; 
         padding: 3%;
     }
 
     .teste{
         margin-bottom: 5%;
+        
     }
 
     .teste3 {
@@ -29,13 +29,16 @@
         margin-bottom: 5%;
         border-radius: 5px;
         border-color: black;   
+        max-height: 40px;
     }
 
     .teste2{
         max-width: 50px;
+        max-height: 40px;
         margin-bottom: 5%;
-        border-radius: 5px;
+        border-radius: 35px;
         border-color: black;
+        text-align: center;
     }
 
     .botao {
@@ -80,9 +83,10 @@
 
     }
 
-    .titulo{
+    #titulo{
         text-align: center;
-        justify-content: center;
+        font-size: 200%;
+        margin-bottom: 2%
     }
 
     .alert-success {
@@ -97,17 +101,46 @@
 
     .warning {
         color: red;
+        margin-bottom: -2%;
     }
 
     .descricao {
         text-decoration: none;
     }
 
-    #formularioep{
-        text-align: center;
+    #login{
+        margin-left: 8%;
+        width: 40%
+    }
+
+    #registrarse{
+        margin-left: 15%;
+        text-decoration: underline;
+    }
+
+    #registrar {
+        width: 40%;
+        margin-left: 29%;
         margin-bottom: -3%;
     }
 
+    #sair{
+        color: whitesmoke;
+        text-decoration: none;
+        width: 3%;
+    } 
+
+    #salvar{
+        margin-left: 40%;
+        margin-top: 4%;
+        margin-bottom: -4%;
+        width: 20%;
+    }
+
+    #botao2 {
+        margin-top: 4%;
+        margin-bottom: -4%;
+    }
 </style>
 
 
@@ -120,10 +153,27 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </head>
 <body class="body">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            @auth
+            <a id="sair" href="{{ route('series.index')}}">Home</a>
+
+            <form id="sair" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                @method('POST')
+                <button type="submit" id="sair">Sair</button>
+            </form>
+            @endauth
+
+            @guest
+            <a id="sair" href="{{ route('login')}}">Entrar</a>
+            @endguest
+        </div>
+    </nav>
     <div class="container">
         <div class="conteudo">
 
-                    <h1 class="titulo">{{$title}}</h1>
+                    <h1 id="titulo">{{$title}}</h1>
 
                     @if ($errors->any())
                     <div class="warning">
@@ -136,7 +186,7 @@
                     @endif
                     
                     <div class="escrita">
-
+                        
                     {{$slot}}
             </div>
         </div>

@@ -24,6 +24,10 @@ class Episode extends Model
         self::addGlobalScope('ordered', function (Builder $builder) {
             $builder->orderBy('number','asc');
     });
+    }
 
+    public function scopeWatched(Builder $query)
+    {
+        $query->where('watched', true);
     }
 }

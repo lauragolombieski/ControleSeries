@@ -1,7 +1,7 @@
 
 <x-layout title="Episodios">
 
-    <form id="formularioep" method="post">
+    <form method="post">
         @csrf
         <ul class="list-group">
             @foreach ($episodes as $episode)
@@ -15,7 +15,8 @@
                 </li>
             @endforeach
         </ul>
-
-        <button class="btn btn-primary mt-3">Salvar</button>
+        @auth
+        <button id="salvar" class="btn btn-primary">Salvar</button>
+        @endauth
     </form>
 </x-layout>

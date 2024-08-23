@@ -5,24 +5,37 @@
         @method('PUT')
         @endisset
 
-        <div class="mb-3">
-            <label class="teste" for="name">Nome:</label>
-            <input class="teste2" type="text" 
-                                    id="name"  
-                                    name="name" 
-                                    @isset($nome) value="{{ $nome ?? '' }}" @endisset>
-            <br>
+        <div class="row mb-3">
+            <div class="col-8">
+                <label for="name" class="form-label">Nome</label>
+                <br>
+                <input class="teste3" type="text"
+                       autofocus
+                       id="name"
+                       name="name"
+                       class="form-control"
+                       value="{{ $nome }}">
+            </div>
 
-            <label class="teste" for="temp">Temporadas:</label>
-            <input class="teste2" type="text" id="temp" name="temp">
-            <br>
+            <div class="col-2">
+                <label for="seasons" class="teste">Temps</label>
+                <br>
+                <input class="teste2" type="text"
+                       id="seasons"
+                       name="seasons"
+                       class="form-control"
+                       value="X">
+            </div>
 
-            <label class="teste" for="ep">Episodios:</label>
-            <input class="teste2" type="text" id="ep" name="ep">
+            <div class="col-2">
+                <label for="episodes" class="teste">Episodios</label>
+                <br>
+                <input class="teste2" type="text"
+                       id="episodes"
+                       name="episodes"
+                       class="form-control"
+                       value="X">
+            </div>
         </div>
-
-        <?php if(isset($nome)) {?> <button type="submit" class="botao">Salvar</button> <?php
-        } else {?>
-        <button type="submit" class="botao">Adicionar</button>
-        <?php } ?>
+        <button id="botao2" type="submit" class="botao">Salvar</button>
     </form>

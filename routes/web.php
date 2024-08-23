@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\EpisodesController;
-use App\Http\Controllers\SeasonsController;
-use App\Http\Controllers\SeriesController;
-use Illuminate\Http\Client\Request;
+use App\Http\Controllers\LoginController;
+use App\Mail\SeriesCreated;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,16 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
-    return redirect('/series');
+    return view('welcome');
 });
 
-Route::resource('/series', SeriesController::class)
-    ->except(['show']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('/series/{series}/seasons', [SeasonsController::class,'index'])->name('seasons.index');
+Route::get('/email', function() {
+    return new SeriesCreated(
+        'Série de teste',
+        1,
+        5,
+        10,
+    );
+});
 
-Route::get('/seasons/{season}/episodes', [EpisodesController::class, 'index'])->name('episodes.index');
-Route::post('/seasons/{season}/episodes', [EpisodesController::class,'update'])->name('episodes.update');
-
-
+require __DIR__ . '/auth.php';

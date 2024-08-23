@@ -35,6 +35,6 @@
             </div>
         </div>
 
-        <button type="submit" class="botao">Adicionar</button>
+        <button id="botao2" type="submit" class="botao">Adicionar</button>
     </form>
 </x-layout>
