@@ -27,16 +27,16 @@ class EmailUsersAboutSeriesCreated
      */
     public function handle(SeriesCreatedEvent $event)
     {
-        $emails = User::pluck('email');
-        foreach ($emails as $index => $email){
-            $text = new SeriesCreated(
+        $userList = User::all();
+        foreach ($userList as $index => $user) {
+            $email = new SeriesCreated(
                 $event->seriesName,
                 $event->seriesId,
                 $event->seriesSeasons,
                 $event->seriesEpisodes,
             );
-            $when = now()->addSeconds($index*3);
-            Mail::to($email)->later($when, $text);
+            $when = now()->addSeconds($index * 5);
+            Mail::to($user)->later($when, $email);
         }
     }
 }

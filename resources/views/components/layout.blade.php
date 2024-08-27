@@ -68,19 +68,18 @@
     }
 
     .X{
-        position: absolute; 
-        right: 2%;
-        top: 11%;
+        position: absolute;
+        right: 3%;
+        top:31%;
     }
 
     .update {
-        position: absolute; 
-        right: 5%;
-        top: 22%;
+        position: absolute;
+        right: 3%;
+        top:34%;
         color: blue;
         width: 10%;
         text-decoration: none;
-
     }
 
     #titulo{
@@ -105,6 +104,8 @@
     }
 
     .descricao {
+        position: relative;
+        left: 5%;
         text-decoration: none;
     }
 
@@ -141,6 +142,10 @@
         margin-top: 4%;
         margin-bottom: -4%;
     }
+
+    #label {
+        border-color:rgba(180, 181, 187, 0.589);
+}
 </style>
 
 

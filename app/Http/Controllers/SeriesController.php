@@ -37,16 +37,43 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $serie = $this->repository->add($request);
+        $data = $request->cover;
 
-        SeriesCreatedEvent::dispatch(
-            $request->name,
-            $serie->id,
-            $request->seasons,
-            $request->episodes
-        );
+        if ($data != null) {
+            if ($data->getMimeType() ==  'image/gif' || $data->getMimeType() == 'image/jpeg' || $data->getMimeType() == 'image/png') {
+                $coverPath = $request->file('cover')
+                ->store('series_cover', 'public');
+                $request->coverPath = $coverPath;
+                $serie = $this->repository->add($request);
 
-        return redirect()->route('series.index')->with('mensagem.sucesso', "Série {$serie->name} adicionada com sucesso!");
+                SeriesCreatedEvent::dispatch(
+                    $request->name,
+                    $serie->id,
+                    $request->seasons,
+                    $request->episodes
+                );
+        
+                return redirect()->route('series.index')->with('mensagem.sucesso', "Série {$serie->name} adicionada com sucesso!");
+            } else {
+                return "Erro ao adicionar a séries!";
+            }
+
+        } else {
+            $coverPath = 'series_cover/netflix-symbol-black.png';
+            $request->coverPath = $coverPath;
+
+            $serie = $this->repository->add($request);
+
+            SeriesCreatedEvent::dispatch(
+                $request->name,
+                $serie->id,
+                $request->seasons,
+                $request->episodes
+            );
+
+            return redirect()->route('series.index')->with('mensagem.sucesso', "Série {$serie->name} adicionada com sucesso!");
+        }
+
     }
 
     public function destroy(Series $series) 
