@@ -25,6 +25,9 @@ class SeriesFormRequest extends FormRequest
     {
         return [
             'name' => ['required', 'min:3'],
+            'episodes' => ['integer', 'digits_between:1,99'],
+            'seasons' => ['integer', 'digits_between:1,99'],
+            'cover' => ['file', 'image']
         ];
     }
 }

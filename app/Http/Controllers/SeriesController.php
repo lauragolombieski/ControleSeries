@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Events\SeriesCreatedEvent;
 use App\Http\Middleware\Autenticador;
-use App\Mail\SeriesCreated;
-use App\Models\User;
 use App\Repositories\EloquentSeriesRepository;
 use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class SeriesController extends Controller
 {
@@ -37,42 +34,25 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $data = $request->cover;
+        $data = $request->file('cover');
 
-        if ($data != null) {
-            if ($data->getMimeType() ==  'image/gif' || $data->getMimeType() == 'image/jpeg' || $data->getMimeType() == 'image/png') {
-                $coverPath = $request->file('cover')
-                ->store('series_cover', 'public');
-                $request->coverPath = $coverPath;
-                $serie = $this->repository->add($request);
-
-                SeriesCreatedEvent::dispatch(
-                    $request->name,
-                    $serie->id,
-                    $request->seasons,
-                    $request->episodes
-                );
-        
-                return redirect()->route('series.index')->with('mensagem.sucesso', "Série {$serie->name} adicionada com sucesso!");
-            } else {
-                return "Erro ao adicionar a séries!";
-            }
-
+        if ($request->hasFile('cover')){
+            $coverPath = $data->store('series_cover', 'public');
         } else {
-            $coverPath = 'series_cover/netflix-symbol-black.png';
-            $request->coverPath = $coverPath;
-
-            $serie = $this->repository->add($request);
-
-            SeriesCreatedEvent::dispatch(
-                $request->name,
-                $serie->id,
-                $request->seasons,
-                $request->episodes
-            );
-
-            return redirect()->route('series.index')->with('mensagem.sucesso', "Série {$serie->name} adicionada com sucesso!");
+            $coverPath = Series::$coverPath;
         }
+        
+        $request->coverPath = $coverPath;
+        $serie = $this->repository->add($request);
+
+        SeriesCreatedEvent::dispatch(
+            $request->name,
+            $serie->id,
+            $request->seasons,
+            $request->episodes
+        );
+
+        return redirect()->route('series.index')->with('mensagem.sucesso', "Série {$serie->name} adicionada com sucesso!");
 
     }
 
@@ -85,15 +65,7 @@ class SeriesController extends Controller
 
     public function edit(Series $series) 
     {
-        return view("series.edit")->with("series", $series);
+        return view("series.edit")->with("serie", $series);
     }
 
-    public function update(Series $series, SeriesFormRequest $request)
-    {
-        $series->fill($request->all());
-        $series->save();
-
-        return redirect()->route('series.index')
-            ->with('mensagem.sucesso', "Salvo com sucesso");
-    }
 }

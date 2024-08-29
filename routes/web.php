@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\SeriesController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SeasonsController;
 use App\Http\Controllers\UsersController;
 use App\Mail\SeriesCreated;
-use App\Models\Series;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,10 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('series/{serie}/edit', [SeasonsController::class, 'update'])->name('seasons.update');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::post('series/{serie}/seasons/destroy', [SeasonsController::class, 'destroy'])->name('seasons.destroy');
 
 Route::get('register', [UsersController::class, 'create'])
 ->name('register');

@@ -36,6 +36,18 @@
                        class="form-control"
                        value="X">
             </div>
+
+            <ul class="list-group-item d-flex justify-content-between align-items-center">  
+                <div class="col-12">
+                    <label for="cover" class="form-label">Modificar Capa</label>
+                    <input type="file" id="cover" name="cover" class="form-control" 
+                            accept="image/gif, image/jpeg, image/png">
+                            <br>
+                    <button type="submit">
+                        Enviar nova capa
+                    </button>
+                </div>
+
         </div>
         <button id="botao2" type="submit" class="botao">Salvar</button>
     </form>

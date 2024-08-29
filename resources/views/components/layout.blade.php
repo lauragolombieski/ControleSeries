@@ -68,15 +68,15 @@
     }
 
     .X{
-        position: absolute;
-        right: 3%;
-        top:31%;
+        position: relative;
+        right: 20%;
+        margin-top: 32%;
     }
 
     .update {
-        position: absolute;
-        right: 3%;
-        top:34%;
+        position: relative;
+        right: 80%;
+        margin-top: 40%;
         color: blue;
         width: 10%;
         text-decoration: none;
@@ -146,6 +146,15 @@
     #label {
         border-color:rgba(180, 181, 187, 0.589);
 }
+    #deleteimage {
+        display:flex;
+        color: red;
+        justify-content: center;
+        width: 100%;
+        margin-top: 5%;
+        margin-bottom: -3%;
+        text-decoration: none;
+    }
 </style>
 
 

@@ -28,6 +28,7 @@
                     <button class="btn btn-danger btn-sm">
                         X
                     </button>
+                    <br>
                 </form>
                 </span>
                 @endauth
