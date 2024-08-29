@@ -155,8 +155,13 @@
         margin-bottom: -3%;
         text-decoration: none;
     }
-</style>
 
+    #voltar {
+        position: absolute;
+        font-size: 200%;
+        top: 2%;
+    }
+</style>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -182,10 +187,20 @@
             @guest
             <a id="sair" href="{{ route('login')}}">Entrar</a>
             @endguest
+
         </div>
     </nav>
     <div class="container">
         <div class="conteudo">
+            @php
+                $history = session('user_history', []);
+                $previousUrl = array_shift($history); // Remove a última URL do histórico e a usa para redirecionar
+                session(['user_history' => $history]); // Atualiza o histórico na sessão
+            @endphp
+    
+            <button onclick="window.history.back();" title="Voltar">
+                <i id="voltar">←</i>
+            </button>
 
                     <h1 id="titulo">{{$title}}</h1>
 
@@ -205,5 +220,6 @@
             </div>
         </div>
     </div>
+    
 </body>
 </html>

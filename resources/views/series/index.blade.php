@@ -34,6 +34,8 @@
                 @endauth
             </li>
             @endforeach
+            <br>
+            {{ $series->links()}}
     </ul>
     <br>
     @auth

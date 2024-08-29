@@ -20,11 +20,15 @@ class SeriesController extends Controller
 
     public function index(Request $request)
     {
-        $series = Series::all();
+        $series = Series::simplePaginate(5);
+
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
         $request->session()->forget('mensagem.sucesso');
 
-        return view('series.index')-> with('series', $series)->with('mensagemSucesso', $mensagemSucesso);
+        return view('series.index', [
+            'series' => $series,
+            'mensagemSucesso' => $mensagemSucesso,
+        ]);
     }
 
     public function create()
@@ -34,6 +38,8 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
+        $request->session()->put('url_antiga', url()->previous());
+        
         $data = $request->file('cover');
 
         if ($request->hasFile('cover')){
@@ -45,12 +51,12 @@ class SeriesController extends Controller
         $request->coverPath = $coverPath;
         $serie = $this->repository->add($request);
 
-        SeriesCreatedEvent::dispatch(
-            $request->name,
-            $serie->id,
-            $request->seasons,
-            $request->episodes
-        );
+        // SeriesCreatedEvent::dispatch(
+        //     $request->name,
+        //     $serie->id,
+        //     $request->seasons,
+        //     $request->episodes
+        // );
 
         return redirect()->route('series.index')->with('mensagem.sucesso', "Série {$serie->name} adicionada com sucesso!");
 
@@ -60,7 +66,7 @@ class SeriesController extends Controller
     {   
         $series->delete();
 
-        return redirect()->route('series.index')->with('mensagem.sucesso', "Série {$series->name} removida com sucesso!");
+        return redirect()->back()->with('mensagem.sucesso', "Série {$series->name} removida com sucesso!");
     }
 
     public function edit(Series $series) 
