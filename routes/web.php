@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\SeriesController;
-use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SeasonsController;
+use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\UsersController;
 use App\Mail\SeriesCreated;
 use Illuminate\Support\Facades\Route;
@@ -33,9 +32,13 @@ Route::get('login', [LoginController::class, 'index'])
 
 Route::post('login', [LoginController::class, 'store']);
 
+Route::get('/series/search', [SeriesController::class, 'search'])->name('series.search');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/series/{series}/seasons/{season}/episodes', [SeasonsController::class, 'getEpisodes']);
 
 Route::get('/email', function() {
     return new SeriesCreated(

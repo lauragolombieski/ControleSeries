@@ -1,7 +1,11 @@
 <style>
-    .body {
-        background-color:#5219;
-        margin-bottom: 35%;
+    .body 
+    {
+        background-image: url('{{ asset('images/netflix.gif') }}');
+        background-size: cover; /* Faz com que a imagem cubra toda a tela */
+        background-position: center; /* Centraliza a imagem */
+        background-repeat: no-repeat; /* Não repete a imagem */
+        margin-bottom: 15%;
     }
     
     .conteudo{
@@ -11,7 +15,7 @@
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Adiciona a sombra */
         background-color: white;
         margin: 0 auto;
-        max-width: 600px;
+        max-width: 900px;
         padding: 20px;
     }
 
@@ -44,7 +48,7 @@
     .botao {
         background-color: white;
         display: flex;
-        margin-left: 25%;
+        margin-left: 30%;
         justify-content: center;
         border: 2px solid #333;
         border-radius: 15px;
@@ -54,7 +58,7 @@
         font-size: 16px; /* Ajusta o tamanho da fonte */
         color: inherit; /* Herda a cor do elemento pai */
         text-decoration: none; /* Remove o sublinhado */
-        width: 50%;
+        width: 40%;
         transition: 0.3s ; /* Transição suave para a sombra */
     }
 
@@ -145,7 +149,8 @@
 
     #label {
         border-color:rgba(180, 181, 187, 0.589);
-}
+    }
+
     #deleteimage {
         display:flex;
         color: red;
@@ -161,6 +166,75 @@
         font-size: 200%;
         top: 2%;
     }
+
+    .search {
+        display:flex;
+        justify-content: center;
+    }
+
+    #pesquisar {
+        border-radius: 5px;
+        border-color: rgb(104, 100, 100);
+        margin-right: 3%;
+    }
+
+    .carrossel {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+    }
+
+    .slides {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .episode-item {
+        display: flex;
+        flex-direction: column;
+        margin-right: 5%;
+        flex: 0 0 auto; /* Faz com que os itens não se redimensionem */
+        width: 30%; /* Ajuste a largura conforme o número de itens que deseja mostrar por vez */
+        box-sizing: border-box;
+        text-align: center;
+        justify-content: center;
+
+    }
+
+    .episode-item img {
+        display: flex;
+        width: 80%;
+        justify-content: center;
+        height: auto;
+        width: auto;
+        max-height: 250px; /* Define uma altura máxima para a imagem */
+    }
+
+    .prev, .next {
+        position: absolute;
+        top: 63%;
+        transform: translateY(-50%);
+        color: rgb(121, 113, 113);
+        border: none;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .next {
+        right: 47;
+    }
+
+    #temp{
+        border-radius: 10px;
+    }
+
+    .centralizar {
+        position: relative;
+        align-items: center;
+    }
+
+
 </style>
 
 <!DOCTYPE html>
@@ -192,16 +266,21 @@
     </nav>
     <div class="container">
         <div class="conteudo">
+            <br>
             @php
+                $currentUrl = request()->path();
                 $history = session('user_history', []);
                 $previousUrl = array_shift($history); // Remove a última URL do histórico e a usa para redirecionar
                 session(['user_history' => $history]); // Atualiza o histórico na sessão
             @endphp
-    
-            <button onclick="window.history.back();" title="Voltar">
-                <i id="voltar">←</i>
-            </button>
 
+
+            @unless($currentUrl == 'series' || $currentUrl == 'login')
+                <button onclick="window.history.back();" title="Voltar">
+                    <i id="voltar">←</i>
+                </button>
+            @endunless
+            
                     <h1 id="titulo">{{$title}}</h1>
 
                     @if ($errors->any())

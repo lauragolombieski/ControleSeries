@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SeriesCreatedEvent;
 use App\Http\Middleware\Autenticador;
 use App\Repositories\EloquentSeriesRepository;
 use App\Http\Requests\SeriesFormRequest;
@@ -20,7 +19,7 @@ class SeriesController extends Controller
 
     public function index(Request $request)
     {
-        $series = Series::simplePaginate(5);
+        $series = Series::paginate(5);
 
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
         $request->session()->forget('mensagem.sucesso');
@@ -74,4 +73,17 @@ class SeriesController extends Controller
         return view("series.edit")->with("serie", $series);
     }
 
+    public function search(Request $request)
+    {
+        $searchQuery = $request->input('query');
+        
+        $series = Series::where('name', 'like', "%{$searchQuery}%")
+                    ->paginate(5)
+                    ->appends(['query' => $searchQuery]); // Mantém a query no paginate
+        
+        $mensagemSucesso = $request->session()->get('mensagem.sucesso');
+        $request->session()->forget('mensagem.sucesso');
+
+        return view('series.index', compact('series', 'searchQuery', 'mensagemSucesso'));
+    }
 }

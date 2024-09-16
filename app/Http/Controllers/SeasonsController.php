@@ -122,4 +122,21 @@ public static function changeEpisodes(Series $serie, SeriesFormRequest $request)
 
             });
     }
+    public function getEpisodes($seriesId, $seasonNumber)
+{
+    // Busca a temporada com os episódios
+    $season = Season::where('series_id', $seriesId)
+                    ->where('number', $seasonNumber)
+                    ->with('episodes') // Certifique-se de carregar os episódios
+                    ->first();
+
+    if ($season) {
+        return response()->json([
+            'episodes' => $season->episodes
+        ]);
+    }
+
+    return response()->json(['error' => 'Temporada não encontrada'], 404);
+}
+
 }

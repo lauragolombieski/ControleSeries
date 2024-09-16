@@ -1,5 +1,14 @@
 
-<x-layout title="Séries">
+<x-layout title="Séries"> 
+
+    <div>
+        <form class="search" action="{{route('series.search')}}" method="get">
+            <input id="pesquisar" type="text" name="query" value="{{ request()->input('query') }}" placeholder="Pesquisar...">
+            <button>Pesquisar</button>
+        </form>
+    </div>
+
+    <br>
 
     @isset($mensagemSucesso)
         <div class="alert-success">
@@ -7,6 +16,7 @@
         </div>
     @endisset
 
+    @if ($series->count() > 0)
     <ul class="list-group">
         @foreach ($series as $serie)
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -37,6 +47,10 @@
             <br>
             {{ $series->links()}}
     </ul>
+    @else
+    <p>Nenhum item encontrado.</p>
+    @endif
+
     <br>
     @auth
     <a class="botao" href="{{route('series.create')}}">Adicionar serie</a>
